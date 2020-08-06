@@ -2,14 +2,11 @@ import matplotlib.pyplot as plt
 import numpy as np
 import tensorflow as tf
 import datetime
+import argparse
 from model import CVAE
 
 train_size = 60000
-batch_size = 32
 test_size = 10000
-EPOCHS = 10
-latent_dim = 2
-inter_dim = 128
 # num_examples_to_generate = 16
 
 current_time = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
@@ -17,6 +14,44 @@ train_log_dir = 'logs/gradient_tape/' + current_time + '/train'
 test_log_dir = 'logs/gradient_tape/' + current_time + '/test'
 train_summary_writer = tf.summary.create_file_writer(train_log_dir)
 test_summary_writer = tf.summary.create_file_writer(test_log_dir)
+
+def parse_args():
+    desc = 'Tensorflow implementation of CVAE'
+    parser = argparse.ArgumentParser(description=desc)
+
+    parser.add_argument('--EPOCHS', type=int, default=10, help='The number of epochs to run')
+    parser.add_argument('--batch_size', type=int, default=64, help='The size of batch')
+    parser.add_argument('--latent_dim', type=int, default=2, help='Dimension of latent space')
+    parser.add_argument('--inter_dim', type=int, default=128, help='Dimension of dense layer')
+
+    return check_args(parser.parse_args())
+
+def check_args(args):
+    # --epoch
+    try:
+        assert args.EPOCHS >= 1
+    except:
+        print('number of epochs must be larger than or equal to one')
+
+    # --batch_size
+    try:
+        assert args.batch_size >= 1
+    except:
+        print('batch size must be larger than or equal to one')
+
+    # --latent_dim
+    try:
+        assert args.latent_dim >= 1
+    except:
+        print('dimension of latent space must be larger than or equal to one')
+
+    # --inter_dim
+    try:
+        assert args.inter_dim >= 1
+    except:
+        print('dimension of latent space must be larger than or equal to one')
+    return args
+
 
 # model each pixel with a Bernoulli distribution
 def preprocess_images(images):
@@ -69,6 +104,11 @@ def generate_and_save_images(model, epoch, test_sample_x, test_sample_y):
 
 if __name__ == '__main__':
 
+    # parse arguments
+    args = parse_args()
+    if args is None:
+        exit()
+
     (train_images, train_y), (test_images, test_y) = tf.keras.datasets.mnist.load_data()
     train_y = tf.one_hot(train_y, depth=10)
     test_y = tf.one_hot(test_y, depth=10)
@@ -76,9 +116,9 @@ if __name__ == '__main__':
     test_images = preprocess_images(test_images)
 
     train_dataset = (tf.data.Dataset.from_tensor_slices((train_images, train_y))
-                     .shuffle(train_size).batch(batch_size))
+                     .shuffle(train_size).batch(args.batch_size))
     test_dataset = (tf.data.Dataset.from_tensor_slices((test_images, test_y))
-                    .shuffle(test_size).batch(batch_size))
+                    .shuffle(test_size).batch(args.batch_size))
 
     optimizer = tf.keras.optimizers.Adam(1e-4)
 
@@ -91,9 +131,9 @@ if __name__ == '__main__':
     # generate_and_save_images(model, 0, test_sample_x, test_sample_y)
 
     # reset
-    model = CVAE(latent_dim, inter_dim)
+    model = CVAE(args.latent_dim, args.inter_dim)
 
-    for epoch in range(EPOCHS):
+    for epoch in range(args.EPOCHS):
         for train in train_dataset:
             train_step(model, train[0], train[1], optimizer)
             with train_summary_writer.as_default():

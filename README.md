@@ -26,7 +26,7 @@ $ conda activate demo
 ```
 Next let's train the model locally (make sure you are under the `demo` env)
 ```bash
-$ python train.py
+$ python train.py --batch_size 32 --EPOCHS 10 --latent_dim 2 --inter_dim 128
 ```
 Make sure you are able to see the checkpoint being saved in `~/saved_model/` folder.
 You may also check out the log files under `~/logs/`.
