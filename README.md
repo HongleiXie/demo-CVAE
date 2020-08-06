@@ -1,6 +1,4 @@
-# Generate synthetic handwriting digit
-
-## Conditional Variational Autoencoder
+# Oversampling with the Conditional Variational Autoencoder (CVAE)
 Oversampling such as SMOTE is very popular in addressing imbalanced data classification. 
 However, feature space distance-based learning algorithms such as 
 SMOTE seem to fail to capture the true joint distribution 
@@ -11,12 +9,15 @@ our team proposed a new generative method, namely the [VoS](https://arxiv.org/ab
 a Method for **V**ariational **O**ver**S**ampling of Imbalanced Data. 
 Note that we have made material changes since we published it in arXiv and the new paper is under review currently.
 
+## Brief intro to CVAE
+TBA
+
 
 ## How to run this demo locally
 Firstly clone this project into your local
 ```bash
-$ git clone git@github.com:HongleiXie/demo-deep-conditional-generative.git
-$ cd demo-deep-conditional-generative
+$ git clone git@github.com:HongleiXie/demo-CVAE.git
+$ cd demo-CVAE
 ```
 Next, run the following commands to set up the enviroment
 ```bash
