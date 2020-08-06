@@ -1,0 +1,4 @@
+# reduce the slug size
+*.png
+*.md
+/logs
