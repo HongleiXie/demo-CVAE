@@ -34,8 +34,6 @@ venv.bak/
 
 # foler
 temp/
-logs/
-saved_model/
 
 .vscode
 .DS_Store
