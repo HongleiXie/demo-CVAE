@@ -31,7 +31,7 @@ def main():
     for i in range(int(num_examples_to_generate / 4)):
         st.image(image=all_y[i*4 : (i+1)*4], width=64)
 
-    st.markdown('[Project Page](https://github.com/HongleiXie/hongleixie.github.io)')
+    st.markdown('[Project Page](https://github.com/HongleiXie/demo-CVAE)')
 
 if __name__ == '__main__':
     main()
