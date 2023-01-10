@@ -1,8 +1,5 @@
 # Oversampling with the Conditional Variational Autoencoder (CVAE)
 
-A demo [web app](https://demo-cvae-app.herokuapp.com/) has been deployed in Heroku.
-![Web app](web.png)
-
 Oversampling such as SMOTE is very popular in addressing imbalanced data classification.
 However, feature space distance-based learning algorithms such as
 SMOTE seem to fail to capture the true joint distribution
